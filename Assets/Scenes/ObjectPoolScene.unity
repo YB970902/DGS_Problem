@@ -152,7 +152,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabCircle: {fileID: 8831348070034819485, guid: 8430c2d63be4f4fd7a9e83a2fe95c550, type: 3}
-  circleCount: 1
+  circleCount: 5
+  prefabPool: {fileID: 1125403104537798787, guid: a1cde4a47dd31634ab83890cde0f9ef7, type: 3}
+  prefabSticker: {fileID: 28007790341579523, guid: 4ede6220c869743d58462987d8f67984, type: 3}
 --- !u!4 &1421282894
 Transform:
   m_ObjectHideFlags: 0

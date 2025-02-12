@@ -23,6 +23,9 @@ public class CircleMovement : MonoBehaviour
     /// <summary> 반지름 </summary>
     [SerializeField] private float radius;
     
+    private ObjectPool stickerPool;
+    private GameObject sticker;
+    
     private void Start()
     {
         float randomAngle = Random.Range(0f, Mathf.PI * 2);
@@ -41,6 +44,31 @@ public class CircleMovement : MonoBehaviour
         else if (position.y > ObjectPoolCircle.MaxPoint.x) position.y = ObjectPoolCircle.MinPoint.y;
 
         transform.position = position;
+
+        GetAndReturnSticker();
+    }
+
+    public void SetStickerPool(ObjectPool _pool)
+    {
+        stickerPool = _pool;
+    }
+
+    /// <summary>
+    /// 서클이 움직임에 따라 sticker를 가져오거나 반환
+    /// </summary>
+    private void GetAndReturnSticker()
+    {
+        // 서클이 카메라 안에 있고 sticker 없는 경우
+        if (IsInCamera() && sticker is null)
+        {
+            sticker = stickerPool.GetObjectAsChild(transform);
+        }
+        // 서클이 카메라 밖에 있고 sticker 있는 경우
+        else if (!IsInCamera() && sticker is not null)
+        {
+            stickerPool.ReturnObject(sticker);
+            sticker = null;
+        }
     }
 
     /// <summary>
