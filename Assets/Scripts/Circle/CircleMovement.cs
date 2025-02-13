@@ -41,6 +41,11 @@ public class CircleMovement : MonoBehaviour
         else if (position.y > ObjectPoolCircle.MaxPoint.x) position.y = ObjectPoolCircle.MinPoint.y;
 
         transform.position = position;
+
+        if (IsInCamera() && this.transform.childCount == 0)
+            ObjectPool.EnablePool(this.transform);
+        if (!IsInCamera() && this.transform.childCount > 0)
+            ObjectPool.DisablePool(this.transform.GetChild(0).gameObject);
     }
 
     /// <summary>
