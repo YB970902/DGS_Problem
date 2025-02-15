@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DGS.Core.ObjectPool;
 using DGS.Utils;
 using UnityEngine;
 
@@ -10,16 +11,22 @@ namespace DGS
     /// </summary>
     public class GameManager : MonoSingleton<GameManager>
     {
+        [SerializeField] ObjectPoolModule poolModule;
+        
         [SerializeField] GameObject prefabCircle;
         /// <summary> 서클의 개수 </summary>
         [SerializeField] private int circleCount;
 
+        public ObjectPoolModule ObjectPoolModule => poolModule;
+        
         protected override void OnInit()
         {
             for (int i = 0; i < circleCount; ++i)
             {
                 SpawnCircle();
             }
+            
+            poolModule.Init();
         }
         
         /// <summary>

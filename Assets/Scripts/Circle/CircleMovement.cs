@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DGS;
 using DGS.Define;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -22,9 +23,13 @@ public class CircleMovement : MonoBehaviour
 
     /// <summary> 반지름 </summary>
     [SerializeField] private float radius;
+
+    private Sticker sticker;
     
     private void Start()
     {
+        sticker = null;
+        
         float randomAngle = Random.Range(0f, Mathf.PI * 2);
         dir = new Vector2();
         dir.x = Mathf.Cos(randomAngle);
@@ -41,6 +46,20 @@ public class CircleMovement : MonoBehaviour
         else if (position.y > ObjectPoolCircle.MaxPoint.x) position.y = ObjectPoolCircle.MinPoint.y;
 
         transform.position = position;
+
+        if (IsInCamera() && sticker == null)
+        {
+            if (GameManager.Instance.ObjectPoolModule.TryGetPoolingObject<Sticker>(out sticker))
+            {
+                sticker.transform.SetParent(transform);
+                sticker.transform.localPosition = Vector3.zero;
+            }
+        }
+        else if(IsInCamera() == false && sticker != null)
+        {
+            sticker.ReturnToPool();
+            sticker = null;
+        }
     }
 
     /// <summary>
